@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "ktnwynnmacros",
+  "version": "${version}",
+
+  "name": "Better Wynn Macros",
+  "description": "Improves spells with predictive spell casting.",
+  "authors": [
+    "Kirdow"
+  ],
+  "contact": {
+    "sources": "https://github.com/Kirdow/BetterWynnMacros"
+  },
+
+  "license": "LGPLv3",
+  "icon": "assets/ktnwynnmacros/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.kirdow.wynnmacros.WynnMacros"
+    ]
+  },
+  "mixins": [
+    "ktnwynnmacros.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "fabric": "*",
+    "minecraft": ">=1.21",
+    "java": ">=21"
+  },
+  "suggests": {
+    "wynnaspects": "1.0.9",
+    "ktnilcks": "1.3.9"
+  }
+}

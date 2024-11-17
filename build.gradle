@@ -1,0 +1,83 @@
+plugins {
+    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'maven-publish'
+}
+
+def minecraftVersion = "1.21"
+def modVersion = new Version(0, 1, 0);
+def modRelease = ReleaseType.BETA;
+
+version = "${minecraftVersion}-${modRelease.format(modVersion)}"
+group = "com.kirdow.ktnwynnmacro"
+archivesBaseName = "BetterWynnMacros-Fabric"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    maven { url "https://maven.terraformersmc.com/releases" }
+}
+
+loom {
+    mixin.defaultRefmapName = 'ktnwynnmacro.mixins.refmap.json'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+java {
+    withSourcesJar()
+}
+
+enum ReleaseType {
+    RELEASE("Release", (v) -> String.format("%s", v)),
+    BETA("Beta", (v) -> String.format("%sb", v)),
+    ALPHA("Alpha", (v) -> String.format("%sa", v));
+
+    final String name;
+    final JarFormatter formatter;
+
+    private ReleaseType(String name, JarFormatter formatter) {
+        this.name = name;
+        this.formatter = formatter;
+    }
+
+    String format(Version version) {
+        return formatter.format(version);
+    }
+}
+
+interface JarFormatter {
+    String format(Version version);
+}
+
+class Version {
+    int major;
+    int minor;
+    int revision;
+
+    Version(int major, int minor, int revision) {
+        this.major = major;
+        this.minor = minor;
+        this.revision = revision;
+    }
+
+    String getVersion() {
+        return toString();
+    }
+
+    String toString() {
+        return String.format("%d.%d.%d", major, minor, revision);
+    }
+}
