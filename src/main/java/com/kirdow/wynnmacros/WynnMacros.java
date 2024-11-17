@@ -1,7 +1,9 @@
 package com.kirdow.wynnmacros;
 
+import com.kirdow.wynnmacros.config.ConfigManager;
 import com.kirdow.wynnmacros.input.KeyBindings;
 import com.kirdow.wynnmacros.spells.SpellEngine;
+import com.kirdow.wynnmacros.util.WynnHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -35,7 +37,10 @@ public class WynnMacros implements ClientModInitializer {
         KeyBindings.init();
         KeyBindings.register(KeyBindingHelper::registerKeyBinding);
 
+        ConfigManager.loadConfig();
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            WynnHelper.tick();
             KeyBindings.pollActive(SpellEngine::post);
         });
     }

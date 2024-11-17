@@ -6,7 +6,9 @@
   "mixins": [
   ],
   "client": [
-    "InGameHudAccessor"
+    "InGameHudAccessor",
+    "KeyBindingAccessor",
+    "KeyBindingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

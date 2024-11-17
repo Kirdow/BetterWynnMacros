@@ -1,0 +1,25 @@
+{
+  "_comment": "Base Data",
+  "config.ktnwynnmacros.base.modname": "Better Wynn Macros",
+
+  "_comment": "Key Bindings",
+  "key.categories.ktnwynnmacros": "Better Wynn Macros",
+  "key.ktnwynnmacros.spell.1": "1st Spell",
+  "key.ktnwynnmacros.spell.2": "2nd Spell",
+  "key.ktnwynnmacros.spell.3": "3rd Spell",
+  "key.ktnwynnmacros.spell.4": "4th Spell",
+
+  "_comment": "Config Sections",
+  "config.ktnwynnmacros.section.general": "General",
+  "config.ktnwynnmacros.section.timings": "Timings",
+
+  "_comment": "General Options",
+  "config.ktnwynnmacros.general.force.short": "Force Spell Cast",
+  "config.ktnwynnmacros.general.force.long": "Force-Cast Mode.\nThis indicates how the mod should act when\nthe existing cast sequence doesn't match\nthe desired spell.\n\n\u00A7cNone\u00A7f: \u00A77Force-Cast is off.\n\u00A7aWait for Timeout\u00A7f: \u00A77The mod will queue up the\n  spell for when the cast sequence expires.\n\u00A7aBlock Manual\u00A7f: \u00A77Blocks the normal spell cast\n  button (LMB for archer. RMB for others).",
+  "config.ktnwynnmacros.general.smart.short": "Smart Spell Cast",
+  "config.ktnwynnmacros.general.smart.long": "Check current spell queue and if possible,\nfinish of the spell if it matches.",
+
+  "_comment": "Timing Options",
+  "config.ktnwynnmacros.timings.base.short": "Base Delay",
+  "config.ktnwynnmacros.timings.base.long": "This is the delay between each spell input.\n100ms seem like a stable delay, but\nyou may tweak it if you feel like."
+}

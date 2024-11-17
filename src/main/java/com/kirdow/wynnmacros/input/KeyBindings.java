@@ -5,6 +5,7 @@ import net.minecraft.client.option.KeyBinding;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -14,14 +15,14 @@ public class KeyBindings {
 
     private static SpellBinding[] spellBinds;
     public static KeyBinding[] keySpells;
-    public static final char[] keyDefaults = new char[] {'R', 'F', 'Q', 'V' };
+    public static final char[] keyDefaults = new char[] {'R', 'F', 'V', 'Q' };
 
     public static void init() {
         keySpells = new KeyBinding[keyDefaults.length];
         spellBinds = new SpellBinding[keyDefaults.length];
         for (int i = 0; i < keyDefaults.length; i++) {
             KeyBinding bind = keySpells[i] = new KeyBinding(wildcard("key.<id>.spell." + (i + 1)), keyDefaults[i], wildcard("key.categories.<id>"));
-            spellBinds[i] = new SpellBinding(bind, i);
+            spellBinds[i] = new SpellBinding(new KeyLock(bind), i);
         }
 
     }
@@ -32,21 +33,18 @@ public class KeyBindings {
         }
     }
 
-    public static List<SpellBinding> getActiveBinds() {
-        return Arrays.stream(spellBinds).filter(p -> p.entry().wasPressed()).collect(Collectors.toUnmodifiableList());
+    public static Optional<SpellBinding> getActiveBind() {
+        KeyLock.tickAll();
+        return Arrays.stream(spellBinds)
+                .filter(bind -> bind.key.isPress())
+                .findFirst();
     }
 
     public static void pollActive(Consumer<SpellBinding> consumer) {
-        for (var active = getActiveBinds(); active.size() > 0; active = getActiveBinds()) {
-            for (SpellBinding binding : active) {
-                if (consumer != null)
-                    consumer.accept(binding);
-            }
-        }
+        getActiveBind().ifPresent(consumer);
     }
 
-    public record SpellBinding(KeyBinding entry, int ordinal) {
-    }
+    public record SpellBinding(KeyLock key, int ordinal) {}
 
 
 }

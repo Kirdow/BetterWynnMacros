@@ -2,14 +2,8 @@ package com.kirdow.wynnmacros.spells;
 
 import com.kirdow.wynnmacros.Logger;
 import com.kirdow.wynnmacros.input.KeyBindings.SpellBinding;
+import com.kirdow.wynnmacros.util.WynnHelper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
-import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
-import net.minecraft.util.Hand;
 
 public class SpellEngine {
 
@@ -30,20 +24,14 @@ public class SpellEngine {
         }
     }
 
-    private void send(Packet<?> packet) {
-        try {
-            mc()
-                    .getNetworkHandler()
-                    .sendPacket(packet);
-        } catch (Exception ex) {
-            Logger.error("Failed to send packet: %s", ex.toString());
-        }
-    }
-
     private void actuator(Boolean state) {
-        send((state ^ shouldInvertSpellCast())
-                ? new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, 0, mc().player.getYaw(), mc().player.getPitch())
-                : new HandSwingC2SPacket(Hand.MAIN_HAND));
+        if (state ^ WynnHelper.isBow()) {
+            Logger.debug("Right");
+            WynnHelper.sendUse();
+        } else {
+            Logger.debug("Left");
+            WynnHelper.sendAttack();
+        }
     }
 
     public static void post(SpellBinding bind) {
@@ -52,15 +40,6 @@ public class SpellEngine {
 
     private static MinecraftClient mc() {
         return MinecraftClient.getInstance();
-    }
-
-    private static boolean shouldInvertSpellCast() {
-        return mc()
-                .player
-                .getMainHandStack()
-                .getTooltip(Item.TooltipContext.DEFAULT, mc().player, TooltipType.BASIC)
-                .stream()
-                .anyMatch(p -> p.getString().contains("Archer/Hunter"));
     }
 
 }

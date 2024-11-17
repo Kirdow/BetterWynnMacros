@@ -14,11 +14,19 @@ archivesBaseName = "BetterWynnMacros-Fabric"
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 repositories {
+    maven { url "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+    maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases" }
 }
 
 loom {
     mixin.defaultRefmapName = 'ktnwynnmacro.mixins.refmap.json'
+
+    runs {
+        client {
+            property("devauth.configDir", getRootProject().file(".devauth").absolutePath)
+        }
+    }
 }
 
 dependencies {
@@ -26,6 +34,9 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${project.devauth_version}")
+    modApi "me.shedaniel.cloth:cloth-config-fabric:15.0.127"
+    modApi "com.terraformersmc:modmenu:11.0.1"
 }
 
 processResources {
@@ -38,6 +49,12 @@ processResources {
 
 java {
     withSourcesJar()
+}
+
+tasks.jar {
+    from("LICENSE") {
+        into("/")
+    }
 }
 
 enum ReleaseType {

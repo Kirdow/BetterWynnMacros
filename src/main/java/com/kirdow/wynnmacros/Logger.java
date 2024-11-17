@@ -13,7 +13,7 @@ public class Logger {
         loggerWarn = warn;
     }
 
-    private static final int THROTTLE_LIMIT_AGE = 350;
+    private static final int THROTTLE_LIMIT_AGE = 0;
     private static final Set<ThrottledMessage> throttleSet = new HashSet<>();
 
     private static void refreshThrottleCache() {
