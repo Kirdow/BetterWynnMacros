@@ -13,9 +13,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
-import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -5,7 +5,6 @@ import com.kirdow.wynnmacros.mixin.InGameHudAccessor;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
