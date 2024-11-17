@@ -4,8 +4,8 @@ plugins {
 }
 
 def minecraftVersion = "1.21"
-def modVersion = new Version(0, 1, 0);
-def modRelease = ReleaseType.BETA;
+def modVersion = new Version(1, 0, 0);
+def modRelease = ReleaseType.RELEASE;
 
 version = "${minecraftVersion}-${modRelease.format(modVersion)}"
 group = "com.kirdow.ktnwynnmacro"
