@@ -22,7 +22,7 @@ This is the same as None, except it also blocks the vanilla spell cast button, w
 The mod also has 4 key binds used to cast spells, just like any other Wynn Macro mod. The default delay between each cast input is 100ms. This value is also configurable between 10ms and 1000ms. However values below 100ms are not recommended as they tend to glitch out.
 
 # Download?
-*coming soon*
+Available on [Modrinth](<https://modrinth.com/mod/better-wynn-macros>) and [CurseForge](<https://legacy.curseforge.com/minecraft/mc-mods/betterwynnmacros>).
 
 # License
 Better Wynn Macros is released under the [LGPLv3 License](https://github.com/Kirdow/BetterWynnMacros/blob/master/LICENSE)
