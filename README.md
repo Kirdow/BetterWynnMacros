@@ -25,4 +25,4 @@ The mod also has 4 key binds used to cast spells, just like any other Wynn Macro
 Available on [Modrinth](<https://modrinth.com/mod/better-wynn-macros>) and [CurseForge](<https://legacy.curseforge.com/minecraft/mc-mods/betterwynnmacros>).
 
 # License
-Better Wynn Macros is released under the [LGPLv3 License](https://github.com/Kirdow/BetterWynnMacros/blob/master/LICENSE)
+Better Wynn Macros is released under the license [GNU Lesser General Public License v3.0](https://github.com/Kirdow/BetterWynnMacros/blob/master/LICENSE).
