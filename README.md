@@ -1,4 +1,4 @@
-# Better Wynn Macros [<img src="img.shields.io/github/license/Kirdow/BetterWynnMacros">](https://github.com/Kirdow/BetterWynnMacros/blob/master/LICENSE)
+# Better Wynn Macros [<img src="https://img.shields.io/github/license/Kirdow/BetterWynnMacros">](https://github.com/Kirdow/BetterWynnMacros/blob/master/LICENSE)
 This mod improves Wynncraft's spell casting by adding predictive and intuitive spell macros. It does this by adding two features. Smart Casting and Force Casting.
 
 The mod also has 4 buttons used to spell casting just like any other Wynn Macro mod.
