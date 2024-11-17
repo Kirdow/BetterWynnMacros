@@ -29,16 +29,16 @@ public enum Spell {
 
     public synchronized void run(Consumer<Boolean> actuator) {
         if (engine != null) {
-            Logger.debug("Aborting suggested spell");
+            Logger.dev("Aborting suggested spell");
             return;
         }
 
-        Logger.debug("Starting %s spell", name().toLowerCase());
+        Logger.dev("Starting %s spell", name().toLowerCase());
 
-        Logger.debug("Requesting matching queue");
+        Logger.dev("Requesting matching queue");
         var matchingQueue = WynnHelper.getMatchingSpellQueue(sequence);
         matchingQueue.ifPresentOrElse(rest -> {
-            Logger.debug("Got remaining queue mode (len = %d)", rest.length);
+            Logger.dev("Got remaining queue mode (len = %d)", rest.length);
             var engine = AsyncEngine.start();
             for (int i = 0; i < rest.length; i++) {
                 final boolean cast = rest[i];
@@ -48,13 +48,13 @@ public enum Spell {
                     engine = engine.after(ConfigManager.get().baseDelay, () -> actuator.accept(cast));
             }
             engine = engine.after(ConfigManager.get().baseDelay, Spell::reset);
-            Logger.debug("Started %s spell smart cast", name().toLowerCase());
+            Logger.dev("Started %s spell smart cast", name().toLowerCase());
             Spell.engine = engine;
         }, () -> {
-            Logger.debug("Got occupied queue mode.");
+            Logger.dev("Got occupied queue mode.");
             Spell.engine = AsyncEngine.start();
             WynnHelper.tryRunWait(engine -> {
-                Logger.debug("Got tryRunWait engine.");
+                Logger.dev("Got tryRunWait engine.");
                 for (int i = 0; i < sequence.length; i++) {
                     final boolean cast = sequence[i];
                     if (i == 0)
@@ -63,14 +63,14 @@ public enum Spell {
                         engine = engine.after(ConfigManager.get().baseDelay, () -> actuator.accept(cast));
                 }
                 engine = engine.after(ConfigManager.get().baseDelay, Spell::reset);
-                Logger.debug("Started %s spell forced cast", name().toLowerCase());
+                Logger.dev("Started %s spell forced cast", name().toLowerCase());
                 Spell.engine = engine;
             });
         });
     }
 
     private static void reset() {
-        Logger.debug("Resetting cast");
+        Logger.dev("Resetting cast");
         Spell.engine = null;
     }
 

@@ -61,14 +61,14 @@ public class WynnHelper {
     private static boolean[] getSpellQueue() {
         var inGame = mc().inGameHud;
         String text = ((InGameHudAccessor)inGame).getOverlayText() != null && ((InGameHudAccessor)inGame).getOverlayTime() > 0 ? ((InGameHudAccessor)inGame).getOverlayText().getString() : "";
-        Logger.debug("Found test \"%s\" at %d ticks remaining", text, (int)getOverlayLeft());
+        Logger.dev("Found test \"%s\" at %d ticks remaining", text, (int)getOverlayLeft());
         List<Boolean> sequence = new ArrayList<>();
         for (char c : text.toCharArray()) {
             if (c == BIND_CHARS.charAt(1)) {
-                Logger.debug("Found RMB");
+                Logger.dev("Found RMB");
                 sequence.add(true);
             } else if (c == BIND_CHARS.charAt(0)) {
-                Logger.debug("Found LMB");
+                Logger.dev("Found LMB");
                 sequence.add(false);
             }
         }
@@ -77,7 +77,7 @@ public class WynnHelper {
         for (int i = 0; i < result.length; i++) {
             boolean activeButton = sequence.get(i) ^ isBow();
 
-            Logger.debug("Button: %s", activeButton ? "x" : "o");
+            Logger.dev("Button: %s", activeButton ? "x" : "o");
 
             result[i] = activeButton;
         }
@@ -89,40 +89,40 @@ public class WynnHelper {
         List<Boolean> queue = SpellSequence.extractSequence().orElse(Collections.emptyList());
 
         if (queue.isEmpty()) {
-            Logger.debug("Queue is empty");
+            Logger.dev("Queue is empty");
             return Optional.of(spell);
         }
 
         int len = Math.min(spell.length, queue.size());
-        Logger.debug("Queue len: %d", len);
+        Logger.dev("Queue len: %d", len);
         for (int i = 0; i < Math.min(spell.length, queue.size()); i++) {
             if (spell[i] != queue.get(i)) {
-                Logger.debug("Queue index %d differ", i);
+                Logger.dev("Queue index %d differ", i);
                 return Optional.empty();
             }
         }
 
-        Logger.debug("Queue match");
+        Logger.dev("Queue match");
 
         if (!ConfigManager.get().smartCast) {
-            Logger.debug("No smart cast. Return spell (len = %d)", spell.length);
+            Logger.dev("No smart cast. Return spell (len = %d)", spell.length);
             return Optional.of(spell);
         }
 
         boolean[] result = new boolean[spell.length - queue.size()];
         if (result.length == 0) {
-            Logger.debug("Detected completed spell. Returning full spell (len = %d)", spell.length);
+            Logger.dev("Detected completed spell. Returning full spell (len = %d)", spell.length);
             return Optional.of(spell);
         }
 
-        Logger.debug("Skipping %d, creating result of (len = %d)", queue.size(), result.length);
+        Logger.dev("Skipping %d, creating result of (len = %d)", queue.size(), result.length);
 
         for (int i = 0; i < result.length; i++) {
             boolean next = result[i] = spell[i + queue.size()];
-            Logger.debug("Using %s for index %d of spell", next ? "x" : "o", i + queue.size());
+            Logger.dev("Using %s for index %d of spell", next ? "x" : "o", i + queue.size());
         }
 
-        Logger.debug("Returning spell (len = %d)", result.length);
+        Logger.dev("Returning spell (len = %d)", result.length);
         return Optional.of(result);
     }
 

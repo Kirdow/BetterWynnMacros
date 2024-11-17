@@ -26,10 +26,10 @@ public class SpellEngine {
 
     private void actuator(Boolean state) {
         if (state ^ WynnHelper.isBow()) {
-            Logger.debug("Right");
+            Logger.dev("Right");
             WynnHelper.sendUse();
         } else {
-            Logger.debug("Left");
+            Logger.dev("Left");
             WynnHelper.sendAttack();
         }
     }

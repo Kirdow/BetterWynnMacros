@@ -25,6 +25,7 @@ loom {
     runs {
         client {
             property("devauth.configDir", getRootProject().file(".devauth").absolutePath)
+            property("wynnmacros.isDev", "true")
         }
     }
 }
@@ -51,7 +52,7 @@ java {
     withSourcesJar()
 }
 
-tasks.jar {
+jar {
     from("LICENSE") {
         into("/")
     }

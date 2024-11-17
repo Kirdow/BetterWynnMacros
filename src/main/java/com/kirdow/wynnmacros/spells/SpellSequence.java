@@ -19,7 +19,7 @@ public class SpellSequence {
         var hud = mc().inGameHud;
         Text text = ((InGameHudAccessor)hud).getOverlayText();
         if (text == null) {
-            Logger.debug("No cast sequence can be active");
+            Logger.dev("No cast sequence can be active");
             return Optional.empty();
         }
 
@@ -27,7 +27,7 @@ public class SpellSequence {
 
         Matcher matcher = REGEX.matcher(fullText);
         if (!matcher.find()) {
-            Logger.debug("No cast sequence is active");
+            Logger.dev("No cast sequence is active");
             return Optional.empty();
         }
 
@@ -36,21 +36,21 @@ public class SpellSequence {
             String match = matcher.group(i);
 
             if (match.matches(SpellKey.LEFT.getRegex())) {
-                Logger.debug("Found left");
+                Logger.dev("Found left");
                 result.add(false);
             } else if (match.matches(SpellKey.RIGHT.getRegex())) {
-                Logger.debug("Found right");
+                Logger.dev("Found right");
                 result.add(true);
             } else if (match.matches(SpellKey.NONE.getRegex())) {
-                Logger.debug("Found none");
+                Logger.dev("Found none");
                 break;
             } else {
-                Logger.debug("Invalid sequence character: \"%s\"", match);
+                Logger.dev("Invalid sequence character: \"%s\"", match);
                 return Optional.empty();
             }
         }
 
-        Logger.debug("Returning result of (len = %d)", result.size());
+        Logger.dev("Returning result of (len = %d)", result.size());
         return Optional.of(result);
     }
 

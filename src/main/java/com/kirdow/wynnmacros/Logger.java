@@ -1,5 +1,7 @@
 package com.kirdow.wynnmacros;
 
+import com.kirdow.wynnmacros.util.Reference;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -30,6 +32,12 @@ public class Logger {
 
     public static void info(String format, Object...args) {
         log(String.format(format, args), loggerInfo);
+    }
+
+    public static void dev(String format, Object...args) {
+        if (!Reference.isDev) return;
+        String str = String.format(format, args);
+        log(String.format("DEV: %s", str), loggerInfo);
     }
 
     public static void debug(String format, Object...args) {
