@@ -14,20 +14,20 @@ public enum Spell {
     THIRD(true, false, false),
     FOURTH(true, true, false);
 
-    private final boolean[] sequence;
+    private final SpellKey[] sequence;
 
     Spell(boolean...sequence) {
-        this.sequence = new boolean[sequence.length];
+        this.sequence = new SpellKey[sequence.length];
         for (int i = 0; i < sequence.length; i++) {
-            this.sequence[i] = sequence[i];
+            this.sequence[i] = SpellKey.get(sequence[i]);
         }
     }
 
-    public boolean[] getSequence() {
+    public SpellKey[] getSequence() {
         return sequence;
     }
 
-    public synchronized void run(Consumer<Boolean> actuator) {
+    public synchronized void run(Consumer<SpellKey> actuator) {
         if (engine != null) {
             Logger.dev("Aborting suggested spell");
             return;
@@ -41,7 +41,7 @@ public enum Spell {
             Logger.dev("Got remaining queue mode (len = %d)", rest.length);
             var engine = AsyncEngine.start();
             for (int i = 0; i < rest.length; i++) {
-                final boolean cast = rest[i];
+                final SpellKey cast = rest[i];
                 if (i == 0)
                     engine = engine.then(() -> actuator.accept(cast));
                 else
@@ -56,7 +56,7 @@ public enum Spell {
             WynnHelper.tryRunWait(engine -> {
                 Logger.dev("Got tryRunWait engine.");
                 for (int i = 0; i < sequence.length; i++) {
-                    final boolean cast = sequence[i];
+                    final SpellKey cast = sequence[i];
                     if (i == 0)
                         engine = engine.then(() -> actuator.accept(cast));
                     else

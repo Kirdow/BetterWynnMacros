@@ -24,14 +24,8 @@ public class SpellEngine {
         }
     }
 
-    private void actuator(Boolean state) {
-        if (state ^ WynnHelper.isBow()) {
-            Logger.dev("Right");
-            WynnHelper.sendUse();
-        } else {
-            Logger.dev("Left");
-            WynnHelper.sendAttack();
-        }
+    private void actuator(SpellKey key) {
+        WynnHelper.sendPacket(key.mask(WynnHelper.isBow()).createPacket());
     }
 
     public static void post(SpellBinding bind) {

@@ -12,4 +12,7 @@ public class ModConfig {
     @Comment("Smart Cast")
     public boolean smartCast = true;
 
+    @Comment("Allow Interaction")
+    public boolean allowInteraction = false;
+
 }

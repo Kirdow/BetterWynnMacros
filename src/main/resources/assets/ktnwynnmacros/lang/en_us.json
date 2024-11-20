@@ -18,6 +18,8 @@
   "config.ktnwynnmacros.general.force.long": "Force-Cast Mode.\nThis indicates how the mod should act when\nthe existing cast sequence doesn't match\nthe desired spell.\n\n\u00A7cNone\u00A7f: \u00A77Force-Cast is off.\n\u00A7aWait for Timeout\u00A7f: \u00A77The mod will queue up the\n  spell for when the cast sequence expires.\n\u00A7aBlock Manual\u00A7f: \u00A77Blocks the normal spell cast\n  button (LMB for archer. RMB for others).",
   "config.ktnwynnmacros.general.smart.short": "Smart Spell Cast",
   "config.ktnwynnmacros.general.smart.long": "Check current spell queue and if possible,\nfinish of the spell if it matches.",
+  "config.ktnwynnmacros.general.interact.short": "Allow Interact",
+  "config.ktnwynnmacros.general.interact.long": "For Force-Cast=Block Manual\nAllows interaction with blocks like bank,\ncrafting stations or loot chests.\n\nAlso allows interaction with NPCs.",
 
   "_comment": "Timing Options",
   "config.ktnwynnmacros.timings.base.short": "Base Delay",

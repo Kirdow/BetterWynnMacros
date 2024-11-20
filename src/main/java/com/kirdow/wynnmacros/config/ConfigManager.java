@@ -2,6 +2,7 @@ package com.kirdow.wynnmacros.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kirdow.wynnmacros.Logger;
 import com.kirdow.wynnmacros.WynnMacros;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -14,7 +15,7 @@ public class ConfigManager {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), WynnMacros.wildcard("<id>_config.json"));
+    private static File CONFIG_FILE;
 
     private static ModConfig config;
 
@@ -23,11 +24,15 @@ public class ConfigManager {
     }
 
     public static void loadConfig() {
+        if (CONFIG_FILE == null) {
+            CONFIG_FILE = new File(WynnMacros.getModPath().toAbsolutePath().toFile(), "config.json");
+        }
+
         if (CONFIG_FILE.exists()) {
             try (FileReader reader = new FileReader(CONFIG_FILE)) {
                 config = GSON.fromJson(reader, ModConfig.class);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Logger.exception(ex, WynnMacros.wildcard("Failed to load <name> config"));
                 config = new ModConfig();
             }
         } else {
@@ -39,7 +44,7 @@ public class ConfigManager {
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
             GSON.toJson(config, writer);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.exception(ex, WynnMacros.wildcard("Failed to save <name> config"));
         }
     }
 }

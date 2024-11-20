@@ -31,7 +31,13 @@ public class ConfigScreen {
                         .setDefaultValue(true)
                         .setTooltip(Text.translatable(wildcard("config.<id>.general.smart.long")))
                         .setSaveConsumer(value -> ConfigManager.get().smartCast = value)
+                        .build())
+                .addEntry(entryBuilder.startBooleanToggle(Text.translatable(wildcard("config.<id>.general.interact.short")), ConfigManager.get().allowInteraction)
+                        .setDefaultValue(true)
+                        .setTooltip(Text.translatable(wildcard("config.<id>.general.interact.long")))
+                        .setSaveConsumer(value -> ConfigManager.get().allowInteraction = value)
                         .build());
+
 
         builder.getOrCreateCategory(Text.translatable(wildcard("config.<id>.section.timings")))
                 .addEntry(entryBuilder.startLongSlider(Text.translatable(wildcard("config.<id>.timings.base.short")), ConfigManager.get().baseDelay, 10L, 1000L)

@@ -4,6 +4,7 @@ import com.kirdow.wynnmacros.Logger;
 import com.kirdow.wynnmacros.config.ConfigManager;
 
 import com.kirdow.wynnmacros.mixin.InGameHudAccessor;
+import com.kirdow.wynnmacros.spells.SpellKey;
 import com.kirdow.wynnmacros.spells.SpellSequence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -83,8 +84,8 @@ public class WynnHelper {
         return result;
     }
 
-    public static Optional<boolean[]> getMatchingSpellQueue(boolean[] spell) {
-        List<Boolean> queue = SpellSequence.extractSequence().orElse(Collections.emptyList());
+    public static Optional<SpellKey[]> getMatchingSpellQueue(SpellKey[] spell) {
+        List<SpellKey> queue = SpellSequence.extractSequence().orElse(Collections.emptyList());
 
         if (queue.isEmpty()) {
             Logger.dev("Queue is empty");
@@ -107,7 +108,7 @@ public class WynnHelper {
             return Optional.of(spell);
         }
 
-        boolean[] result = new boolean[spell.length - queue.size()];
+        SpellKey[] result = new SpellKey[spell.length - queue.size()];
         if (result.length == 0) {
             Logger.dev("Detected completed spell. Returning full spell (len = %d)", spell.length);
             return Optional.of(spell);
@@ -116,15 +117,15 @@ public class WynnHelper {
         Logger.dev("Skipping %d, creating result of (len = %d)", queue.size(), result.length);
 
         for (int i = 0; i < result.length; i++) {
-            boolean next = result[i] = spell[i + queue.size()];
-            Logger.dev("Using %s for index %d of spell", next ? "x" : "o", i + queue.size());
+            SpellKey next = result[i] = spell[i + queue.size()];
+            Logger.dev("Using %s for index %d of spell", next.conditional("x", "o"), i + queue.size());
         }
 
         Logger.dev("Returning spell (len = %d)", result.length);
         return Optional.of(result);
     }
 
-    private static void sendPacket(Packet<?> packet) {
+    public static void sendPacket(Packet<?> packet) {
         player()
                 .networkHandler
                 .sendPacket(packet);

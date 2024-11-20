@@ -4,15 +4,18 @@ import com.kirdow.wynnmacros.util.Reference;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Logger {
     private static Consumer<String> loggerInfo, loggerDebug, loggerError, loggerWarn;
-    static void setLogger(Consumer<String> info, Consumer<String> debug, Consumer<String> error, Consumer<String> warn) {
+    private static BiConsumer<String, Throwable> loggerException;
+    static void setLogger(Consumer<String> info, Consumer<String> debug, Consumer<String> error, Consumer<String> warn, BiConsumer<String, Throwable> exception) {
         loggerInfo = info;
         loggerDebug = debug;
         loggerError = error;
         loggerWarn = warn;
+        loggerException = exception;
     }
 
     private static final int THROTTLE_LIMIT_AGE = 0;
@@ -50,6 +53,16 @@ public class Logger {
 
     public static void warn(String format, Object...args) {
         log(String.format(format, args), loggerWarn);
+    }
+
+    public static void exception(Throwable ex, String format, Object...args) {
+        error("An error occurred with BetterWynnMacros. If you believe this was an error, please post an issue on GitHub.");
+        String msg = String.format(format, args);
+        loggerException.accept(msg, ex);
+    }
+
+    public static void exception(Throwable ex) {
+        exception(ex, "An exception was raised.");
     }
 
     private static void log(String msg, Consumer<String> func) {

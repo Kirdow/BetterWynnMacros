@@ -14,7 +14,7 @@ import static com.kirdow.wynnmacros.util.WynnHelper.mc;
 
 public class SpellSequence {
 
-    public static Optional<List<Boolean>> extractSequence() {
+    public static Optional<List<SpellKey>> extractSequence() {
         var hud = mc().inGameHud;
         Text text = ((InGameHudAccessor)hud).getOverlayText();
         if (text == null) {
@@ -30,23 +30,31 @@ public class SpellSequence {
             return Optional.empty();
         }
 
-        List<Boolean> result = new ArrayList<>();
+        List<SpellKey> result = new ArrayList<>();
         for (int i = 1; i <= matcher.groupCount(); i++) {
             String match = matcher.group(i);
 
-            if (match.matches(SpellKey.LEFT.getRegex())) {
+            Optional<SpellKey> spellKey = Optional.empty();
+            if (match.matches(SpellIcon.LEFT.getRegex())) {
                 Logger.dev("Found left");
-                result.add(false);
-            } else if (match.matches(SpellKey.RIGHT.getRegex())) {
+                spellKey = SpellKey.get(SpellIcon.LEFT);
+            } else if (match.matches(SpellIcon.RIGHT.getRegex())) {
                 Logger.dev("Found right");
-                result.add(true);
-            } else if (match.matches(SpellKey.NONE.getRegex())) {
+                spellKey = SpellKey.get(SpellIcon.RIGHT);
+            } else if (match.matches(SpellIcon.NONE.getRegex())) {
                 Logger.dev("Found none");
                 break;
             } else {
                 Logger.dev("Invalid sequence character: \"%s\"", match);
                 return Optional.empty();
             }
+
+            if (spellKey.isEmpty()) {
+                Logger.dev("Failed to create SpellKey");
+                return Optional.empty();
+            }
+
+            result.add(spellKey.get());
         }
 
         Logger.dev("Returning result of (len = %d)", result.size());
@@ -56,8 +64,8 @@ public class SpellSequence {
     private static final Pattern REGEX;
 
     static {
-        final String regexSwitch = "(" + SpellKey.LEFT + "|" + SpellKey.RIGHT + "|" + SpellKey.NONE + ")";
-        final String regexSep = "\\s" + SpellKey.ARROW + "\\s";
+        final String regexSwitch = "(" + SpellIcon.LEFT + "|" + SpellIcon.RIGHT + "|" + SpellIcon.NONE + ")";
+        final String regexSep = "\\s" + SpellIcon.ARROW + "\\s";
 
         final String regexThreeSwitches = regexSwitch + regexSep
                 + regexSwitch + regexSep
@@ -66,7 +74,7 @@ public class SpellSequence {
         REGEX = Pattern.compile(regexThreeSwitches);
     }
 
-    public enum SpellKey {
+    public enum SpellIcon {
         LEFT('\ue100', '\ue103', '\ue010', '\ue000'),
         RIGHT('\ue101', '\ue104', '\ue011', '\ue001'),
         NONE('\ue102', '\ue105', '\ue012', '\ue002'),
@@ -75,7 +83,7 @@ public class SpellSequence {
         private final String regex;
         private final char[] chars;
 
-        SpellKey(char...chars) {
+        SpellIcon(char...chars) {
             this.chars = new char[chars.length];
             String[] list = new String[chars.length];
             for (int i = 0; i < chars.length; i++) {

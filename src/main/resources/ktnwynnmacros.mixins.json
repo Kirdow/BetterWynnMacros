@@ -8,7 +8,8 @@
   "client": [
     "InGameHudAccessor",
     "KeyBindingAccessor",
-    "KeyBindingMixin"
+    "KeyBindingMixin",
+    "TextDisplayEntityInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

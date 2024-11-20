@@ -12,7 +12,7 @@ public class AsyncEngine {
         return new AsyncEngine(null);
     }
 
-    private CompletableFuture<Void> future;
+    private final CompletableFuture<Void> future;
 
     private AsyncEngine(CompletableFuture<Void> future) {
         this.future = future;

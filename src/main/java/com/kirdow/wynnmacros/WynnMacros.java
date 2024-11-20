@@ -3,6 +3,7 @@ package com.kirdow.wynnmacros;
 import com.kirdow.wynnmacros.config.ConfigManager;
 import com.kirdow.wynnmacros.input.KeyBindings;
 import com.kirdow.wynnmacros.spells.SpellEngine;
+import com.kirdow.wynnmacros.util.PlayerHelper;
 import com.kirdow.wynnmacros.util.WynnHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -16,23 +17,25 @@ import java.nio.file.Path;
 public class WynnMacros implements ClientModInitializer {
     public static final String MOD_ID = "ktnwynnmacros";
     public static final String MOD_NAME = "Better Wynn Macros";
-    public static final String MOD_VERSION = "0.1.0";
+    public static final String MOD_VERSION = "1.0.1";
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static Path modPath;
 
     @Override
     public void onInitializeClient() {
-        Logger.setLogger(LOGGER::info, LOGGER::debug, LOGGER::error, LOGGER::warn);
+        Logger.setLogger(LOGGER::info, LOGGER::debug, LOGGER::error, LOGGER::warn, LOGGER::error);
 
         Logger.info("Preparing mod config directory");
         modPath = FabricLoader.getInstance().getConfigDir().resolve(WynnMacros.MOD_ID);
         File modFolder = modPath.toFile();
-        if (modFolder.exists()) {
+        if (!modFolder.exists()) {
             Logger.info("Creating config directory");
             if (!modFolder.mkdir())
                 Logger.error("Failed creating config directory: %s", modFolder.getAbsolutePath());
         }
+
+        PlayerHelper.init();
 
         KeyBindings.init();
         KeyBindings.register(KeyBindingHelper::registerKeyBinding);
@@ -50,5 +53,9 @@ public class WynnMacros implements ClientModInitializer {
                 .replace("<id>", MOD_ID)
                 .replace("<name>", MOD_NAME)
                 .replace("<version>", MOD_VERSION);
+    }
+
+    public static Path getModPath() {
+        return modPath;
     }
 }
