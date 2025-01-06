@@ -98,9 +98,11 @@ public class PlayerHelper {
             }
 
             for (var knownBlock : BLOCKS) {
-                if (knownBlock == block && isEntityAbove(pos.toCenterPos(), "crafting station", 1.0)) {
-                    return true;
-                }
+                if (knownBlock != block) continue;
+
+                var centerPos = pos.toCenterPos();
+                if (isEntityAbove(centerPos, "crafting station", 1.0)) return true;
+                if (isEntityAbove(centerPos, "workbench", 2.0)) return true;
             }
         }
 
@@ -182,7 +184,8 @@ public class PlayerHelper {
                 Blocks.END_PORTAL_FRAME,
                 Blocks.SMOOTH_STONE_SLAB,
                 Blocks.FURNACE,
-                Blocks.BLAST_FURNACE
+                Blocks.BLAST_FURNACE,
+                Blocks.BARRIER
         );
 
         Map<Double, Set<String>> entries = new HashMap<>();

@@ -17,7 +17,7 @@ import java.nio.file.Path;
 public class WynnMacros implements ClientModInitializer {
     public static final String MOD_ID = "ktnwynnmacros";
     public static final String MOD_NAME = "Better Wynn Macros";
-    public static final String MOD_VERSION = "1.0.1";
+    public static final String MOD_VERSION = "1.0.2";
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static Path modPath;
