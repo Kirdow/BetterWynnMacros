@@ -1,9 +1,9 @@
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'fabric-loom' version '1.8-SNAPSHOT'
     id 'maven-publish'
 }
 
-def minecraftVersion = "1.21"
+def minecraftVersion = "1.21.4"
 def modVersion = new Version(1, 0, 2);
 def modRelease = ReleaseType.RELEASE;
 
@@ -36,8 +36,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${project.devauth_version}")
-    modApi "me.shedaniel.cloth:cloth-config-fabric:15.0.127"
-    modApi "com.terraformersmc:modmenu:11.0.1"
+    modApi "me.shedaniel.cloth:cloth-config-fabric:17.0.144"
+    modApi "com.terraformersmc:modmenu:13.0.0"
 }
 
 processResources {
